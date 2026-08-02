@@ -1,0 +1,80 @@
+---
+import { getCollection } from "astro:content";
+
+import { siteConfig } from "@/config/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
+  (left, right) => right.data.publishedAt.valueOf() - left.data.publishedAt.valueOf(),
+);
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<BaseLayout>
+  <section class="hero" aria-labelledby="resident-name">
+    <div class="plot-sign" aria-hidden="true">
+      <span>地块</span>
+      <strong>07</strong>
+    </div>
+    <div class="hero-copy">
+      <p class="eyebrow">{siteConfig.resident.location}</p>
+      <h1 id="resident-name">{siteConfig.resident.name}</h1>
+      <p class="role">{siteConfig.resident.role}</p>
+      <p class="introduction">{siteConfig.resident.introduction}</p>
+      <p class="status">
+        <span class="status-light" aria-hidden="true"></span>
+        {siteConfig.resident.status}
+      </p>
+    </div>
+  </section>
+
+  <section class="link-shelf" aria-label="个人链接">
+    {
+      siteConfig.links.map((link) => (
+        <a href={link.href} target="_blank" rel="noreferrer">
+          <span>{link.label}</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      ))
+    }
+  </section>
+
+  <section class="posts-section" id="posts" aria-labelledby="posts-title">
+    <div class="section-heading">
+      <div>
+        <h2 id="posts-title">最近文章</h2>
+        <p>小屋里的新纸条，按发布日期排列。</p>
+      </div>
+      <span>{posts.length.toString().padStart(2, "0")} 篇</span>
+    </div>
+
+    {
+      posts.length > 0 ? (
+        <ol class="post-list">
+          {posts.map((post) => (
+            <li>
+              <a href={`${base}/posts/${post.id}/`}>
+                <div>
+                  <h3>{post.data.title}</h3>
+                  <p>{post.data.description}</p>
+                </div>
+                <time datetime={post.data.publishedAt.toISOString()}>
+                  {post.data.publishedAt.toLocaleDateString("zh-CN", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                  })}
+                </time>
+              </a>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <div class="empty-state">
+          <p>桌上还没有新纸条。</p>
+          <p>在 src/content/posts/ 新建 Markdown 文件后，文章会出现在这里。</p>
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

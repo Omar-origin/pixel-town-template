@@ -1,0 +1,62 @@
+---
+import { siteConfig } from "@/config/site";
+import "@/styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = siteConfig.seo.title,
+  description = siteConfig.seo.description,
+} = Astro.props;
+const pageTitle =
+  title === siteConfig.seo.title ? title : `${title} · ${siteConfig.resident.name}`;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">跳到主要内容</a>
+    <header class="site-header">
+      <a class="brand" href={`${base}/`} aria-label="返回首页">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>{siteConfig.resident.name}</span>
+      </a>
+      <nav aria-label="主要导航">
+        <ul>
+          {
+            siteConfig.navigation.map((item) => (
+              <li>
+                <a href={`${base}${item.href}`}>{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </header>
+    <main id="content">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>这间小屋由 Astro 和 Markdown 建造。</p>
+      <p>© {new Date().getFullYear()} {siteConfig.resident.name}</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "date": "2026-08-02",
+  "framework": "Astro 7",
+  "entryStylesheet": "src/styles/global.css",
+  "existingDesignSystem": false,
+  "content": "Astro Content Collections with Markdown",
+  "motion": "Static-first; short link and press feedback only"
+}
