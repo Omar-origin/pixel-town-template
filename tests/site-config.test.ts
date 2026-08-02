@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { getGitHubPagesDeployment } from "../src/config/deployment";
 import { siteConfig } from "../src/config/site";
 
 describe("siteConfig", () => {
@@ -15,5 +16,29 @@ describe("siteConfig", () => {
       const url = new URL(link.href);
       expect(url.protocol).toBe("https:");
     }
+  });
+});
+
+describe("getGitHubPagesDeployment", () => {
+  it("uses the repository name as the GitHub Pages base path", () => {
+    expect(
+      getGitHubPagesDeployment({
+        githubActions: true,
+        githubRepository: "Omar-origin/pixel-town-template",
+      }),
+    ).toEqual({
+      base: "/pixel-town-template",
+      site: "https://Omar-origin.github.io",
+    });
+  });
+
+  it("keeps the root base path for user sites and local builds", () => {
+    expect(
+      getGitHubPagesDeployment({
+        githubActions: true,
+        githubRepository: "therfen412/therfen412.github.io",
+      }).base,
+    ).toBe("/");
+    expect(getGitHubPagesDeployment().base).toBe("/");
   });
 });
