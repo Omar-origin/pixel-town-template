@@ -4,9 +4,9 @@
   --color-ink: oklch(22% 0.024 54);
   --color-muted: oklch(48% 0.025 58);
   --color-rule: oklch(82% 0.024 76);
-  --color-accent: oklch(63% 0.19 42);
+  --color-accent: oklch(56% 0.2 42);
   --color-accent-quiet: oklch(91% 0.055 52);
-  --color-focus: oklch(56% 0.2 42);
+  --color-focus: oklch(48% 0.19 42);
   --color-shadow: oklch(24% 0.03 54 / 0.09);
 
   --font-display: "Plus Jakarta Sans", "Microsoft YaHei", sans-serif;
