@@ -1,6 +1,9 @@
 ---
 import { getCollection } from "astro:content";
 
+import PixelIcon from "@/components/PixelIcon.astro";
+import PixelTownScene from "@/components/PixelTownScene.astro";
+import ResidentPlotBoard from "@/components/ResidentPlotBoard.astro";
 import { siteConfig } from "@/config/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
@@ -11,42 +14,42 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <BaseLayout>
-  <section class="hero" aria-labelledby="resident-name">
-    <div class="plot-sign" aria-hidden="true">
-      <span>地块</span>
-      <strong>07</strong>
-    </div>
-    <div class="hero-copy">
-      <p class="eyebrow">{siteConfig.resident.location}</p>
-      <h1 id="resident-name">{siteConfig.resident.name}</h1>
-      <p class="role">{siteConfig.resident.role}</p>
-      <p class="introduction">{siteConfig.resident.introduction}</p>
-      <p class="status">
-        <span class="status-light" aria-hidden="true"></span>
-        {siteConfig.resident.status}
-      </p>
-    </div>
-  </section>
+  <section class="town-hero" aria-labelledby="resident-name">
+    <PixelTownScene />
+    <div class="town-hero__grid">
+      <ResidentPlotBoard resident={siteConfig.resident} />
 
-  <section class="link-shelf" aria-label="个人链接">
-    {
-      siteConfig.links.map((link) => (
-        <a href={link.href} target="_blank" rel="noreferrer">
-          <span>{link.label}</span>
-          <span aria-hidden="true">↗</span>
-        </a>
-      ))
-    }
-  </section>
+      <div class="resident-profile">
+        <p class="resident-profile__plot">
+          {siteConfig.resident.plot.town} · {siteConfig.resident.plot.number} 号地块
+        </p>
+        <h1 id="resident-name">{siteConfig.resident.name}</h1>
+        <p class="resident-profile__role">{siteConfig.resident.role}</p>
+        <p class="resident-profile__intro">{siteConfig.resident.introduction}</p>
+        <p class="resident-profile__status">
+          <span aria-hidden="true"></span>{siteConfig.resident.status}
+        </p>
 
-  <section class="posts-section" id="posts" aria-labelledby="posts-title">
-    <div class="section-heading">
-      <div>
-        <h2 id="posts-title">最近文章</h2>
-        <p>小屋里的新纸条，按发布日期排列。</p>
+        <div class="resident-links" aria-label="个人链接">
+          {
+            siteConfig.links.map((link, index) => (
+              <a class:list={{ "resident-link--primary": index === 1 }} href={link.href} target="_blank" rel="noreferrer">
+                <span>{link.label}</span>
+                <PixelIcon name="arrow" size={22} />
+              </a>
+            ))
+          }
+        </div>
       </div>
-      <span>{posts.length.toString().padStart(2, "0")} 篇</span>
     </div>
+  </section>
+
+  <section class="posts-window" id="posts" aria-labelledby="posts-title">
+    <header class="posts-window__header">
+      <h2 id="posts-title"><PixelIcon name="lantern" size={32} />最近文章</h2>
+      <span>{posts.length.toString().padStart(2, "0")} 篇</span>
+    </header>
+    <p class="posts-window__description">小屋里的新纸条，按发布日期排列。</p>
 
     {
       posts.length > 0 ? (
@@ -54,7 +57,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
           {posts.map((post) => (
             <li>
               <a href={`${base}/posts/${post.id}/`}>
-                <div>
+                <PixelIcon name="newspaper" size={52} />
+                <div class="post-list__copy">
                   <h3>{post.data.title}</h3>
                   <p>{post.data.description}</p>
                 </div>
@@ -65,6 +69,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
                     day: "2-digit",
                   })}
                 </time>
+                <PixelIcon name="arrow" size={20} />
               </a>
             </li>
           ))}
@@ -77,4 +82,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
       )
     }
   </section>
+
+  <div class="ground-edge" aria-hidden="true"><span></span><span></span><span></span></div>
 </BaseLayout>

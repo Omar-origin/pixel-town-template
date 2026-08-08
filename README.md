@@ -11,6 +11,8 @@
 - pnpm
 - GitHub Actions + GitHub Pages
 
+界面图标参考并使用 [Pixelarticons](https://pixelarticons.com/) 免费 MIT 图标，许可证见 [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)。
+
 ## 本地启动
 
 需要 Node.js `22.12.0` 或更高版本。
@@ -23,8 +25,20 @@ pnpm dev
 
 浏览器打开终端显示的本地地址。首次修改从以下两个位置开始：
 
-- `src/config/site.ts`：姓名、简介、状态、链接和导航；
+- `src/config/site.ts`：姓名、简介、地块、状态、链接和导航；
 - `src/content/posts/`：Markdown 文章。
+
+## 第一次套用模板
+
+不需要理解 Astro 组件，也不需要修改页面布局。按下面顺序替换即可：
+
+1. 打开 `src/config/site.ts`，修改 `resident` 中的姓名、身份、介绍和建设状态；
+2. 修改 `resident.plot` 中的小镇名称、地块编号、坐标、类型和建设阶段；
+3. 将 `links` 中的示例地址换成自己的 GitHub 和像素小镇入口；
+4. 编辑 `src/content/posts/hello-town.md`，或复制它来新增 Markdown 文章；
+5. 如需更换浏览器图标，只替换 `public/favicon.svg`，保持文件名不变。
+
+运行 `pnpm dev` 可以边修改边预览。页面的像素配色、告示牌、小镇背景、手机菜单和文章样式已经统一设置，无需在 CSS 中逐项调整。
 
 ## 检查与构建
 
@@ -51,4 +65,4 @@ pnpm build
 
 ## 当前阶段
 
-这是模板基座：已经具备集中配置、Markdown 内容、响应式首页、文章详情、检查、测试和 Pages 部署流程。后续页面和教程继续按独立功能分支提交。
+这是模板基座：已经具备集中配置、Markdown 内容、像素风响应式首页、文章详情、检查、测试和 Pages 部署流程。后续页面和教程继续按独立功能分支提交。

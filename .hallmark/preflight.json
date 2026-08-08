@@ -1,8 +1,10 @@
 {
-  "date": "2026-08-02",
+  "date": "2026-08-04",
   "framework": "Astro 7",
   "entryStylesheet": "src/styles/global.css",
-  "existingDesignSystem": false,
+  "designSystem": "design.md + tokens.css",
   "content": "Astro Content Collections with Markdown",
-  "motion": "Static-first; short link and press feedback only"
+  "fonts": "DotGothic16 display + Noto Sans SC body",
+  "motion": "Static-first; one-pixel hover and press feedback only",
+  "scope": "Homepage, shared layout, and article detail"
 }

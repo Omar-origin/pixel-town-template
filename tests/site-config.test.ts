@@ -7,6 +7,11 @@ describe("siteConfig", () => {
   it("provides the resident identity required by the homepage", () => {
     expect(siteConfig.resident.name.trim()).not.toBe("");
     expect(siteConfig.resident.introduction.trim()).not.toBe("");
+    expect(siteConfig.resident.plot.town.trim()).not.toBe("");
+    expect(siteConfig.resident.plot.number).toMatch(/^\d{1,3}$/);
+    expect(siteConfig.resident.plot.coordinates).toMatch(/^X\d+, Y\d+$/);
+    expect(siteConfig.resident.plot.type.trim()).not.toBe("");
+    expect(siteConfig.resident.plot.phase.trim()).not.toBe("");
     expect(siteConfig.seo.title.trim()).not.toBe("");
     expect(siteConfig.seo.description.length).toBeLessThanOrEqual(160);
   });

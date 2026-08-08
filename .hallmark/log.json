@@ -1,5 +1,25 @@
 [
   {
+    "date": "2026-08-07",
+    "scope": "app",
+    "macrostructure": "Split Studio + Long Document",
+    "theme": "custom",
+    "theme_axes": "pale-sky / heavy-sans-plus-pixel-utility / coral",
+    "vibe": "detailed 16-bit resident plot",
+    "enrichment": "inline SVG pixel town scene",
+    "brief": "Faithful pixel-town resident template reconstruction"
+  },
+  {
+    "date": "2026-08-04",
+    "scope": "app",
+    "macrostructure": "Split Studio + Long Document",
+    "theme": "custom",
+    "theme_axes": "pale-sky / pixel-display / coral",
+    "vibe": "restrained 16-bit town profile",
+    "enrichment": "CSS pixel townscape",
+    "brief": "Beginner-friendly Pixel Town resident template redesign"
+  },
+  {
     "date": "2026-08-02",
     "macrostructure": "Split Studio",
     "theme": "Hum",
