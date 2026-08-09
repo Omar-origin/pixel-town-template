@@ -1,0 +1,40 @@
+---
+import type { SiteConfig } from "@/config/site";
+import PixelIcon from "@/components/PixelIcon.astro";
+
+interface Props {
+  resident: SiteConfig["resident"];
+}
+
+const { resident } = Astro.props;
+---
+
+<section class="plot-board" aria-label={`${resident.plot.town} ${resident.plot.number} 号居民地块`}>
+  <div class="plot-board__sprouts" aria-hidden="true">
+    <i></i><i></i><i></i>
+  </div>
+  <div class="plot-board__roof" aria-hidden="true"><span></span></div>
+  <div class="plot-board__panel">
+    <p class="plot-board__label"><span aria-hidden="true">▪</span> 地块 <span aria-hidden="true">▪</span></p>
+    <p class="plot-board__number">{resident.plot.number}</p>
+    <dl class="plot-board__data">
+      <div>
+        <dt><PixelIcon name="pin" size={22} />坐标：</dt>
+        <dd>{resident.plot.coordinates}</dd>
+      </div>
+      <div>
+        <dt><PixelIcon name="ruler" size={22} />类型：</dt>
+        <dd>{resident.plot.type}</dd>
+      </div>
+      <div>
+        <dt><PixelIcon name="resident" size={22} />状态：</dt>
+        <dd>{resident.plot.phase}</dd>
+      </div>
+    </dl>
+    <p class="plot-board__status"><span aria-hidden="true"></span>{resident.status}</p>
+  </div>
+  <div class="plot-board__legs" aria-hidden="true"><span></span><span></span></div>
+  <div class="plot-board__garden" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+</section>

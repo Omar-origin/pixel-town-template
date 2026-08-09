@@ -1,0 +1,95 @@
+---
+import PixelIcon from "@/components/PixelIcon.astro";
+import { siteConfig } from "@/config/site";
+import "@/styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = siteConfig.seo.title,
+  description = siteConfig.seo.description,
+} = Astro.props;
+const pageTitle =
+  title === siteConfig.seo.title ? title : `${title} · ${siteConfig.resident.name}`;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">跳到主要内容</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href={`${base}/`} aria-label="返回首页">
+          <PixelIcon name="home" size={38} />
+          <span>{siteConfig.resident.name}</span>
+        </a>
+        <div class="site-header__actions">
+          <span class="build-light" aria-label={`${siteConfig.resident.plot.phase}`}></span>
+          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">
+            <span class="sr-only">打开导航菜单</span>
+            <PixelIcon name="menu" size={24} />
+            <PixelIcon name="close" size={24} />
+          </button>
+          <nav id="site-navigation" aria-label="主要导航">
+            <ul>
+              {
+                siteConfig.navigation.map((item) => (
+                  <li><a href={`${base}${item.href}`}>{item.label}</a></li>
+                ))
+              }
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <main id="content"><slot /></main>
+    <footer class="site-footer">
+      <p>这间小屋由 Astro 和 Markdown 建造。</p>
+      <p>© {new Date().getFullYear()} {siteConfig.resident.name}</p>
+    </footer>
+    <script is:inline>
+      const toggle = document.querySelector('.menu-toggle');
+      const navigation = document.querySelector('#site-navigation');
+      const closeMenu = () => {
+        if (!(toggle instanceof HTMLButtonElement) || !(navigation instanceof HTMLElement)) return;
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.querySelector('.sr-only').textContent = '打开导航菜单';
+        navigation.removeAttribute('data-open');
+      };
+      if (toggle instanceof HTMLButtonElement && navigation instanceof HTMLElement) {
+        toggle.addEventListener('click', () => {
+          const open = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!open));
+          toggle.querySelector('.sr-only').textContent = open ? '打开导航菜单' : '关闭导航菜单';
+          navigation.toggleAttribute('data-open', !open);
+        });
+        navigation.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            closeMenu();
+            toggle.focus();
+          }
+        });
+        window.matchMedia('(min-width: 45rem)').addEventListener('change', closeMenu);
+      }
+    </script>
+  </body>
+</html>

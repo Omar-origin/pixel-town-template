@@ -1,0 +1,87 @@
+---
+import { getCollection } from "astro:content";
+
+import PixelIcon from "@/components/PixelIcon.astro";
+import PixelTownScene from "@/components/PixelTownScene.astro";
+import ResidentPlotBoard from "@/components/ResidentPlotBoard.astro";
+import { siteConfig } from "@/config/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
+  (left, right) => right.data.publishedAt.valueOf() - left.data.publishedAt.valueOf(),
+);
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<BaseLayout>
+  <section class="town-hero" aria-labelledby="resident-name">
+    <PixelTownScene />
+    <div class="town-hero__grid">
+      <ResidentPlotBoard resident={siteConfig.resident} />
+
+      <div class="resident-profile">
+        <p class="resident-profile__plot">
+          {siteConfig.resident.plot.town} · {siteConfig.resident.plot.number} 号地块
+        </p>
+        <h1 id="resident-name">{siteConfig.resident.name}</h1>
+        <p class="resident-profile__role">{siteConfig.resident.role}</p>
+        <p class="resident-profile__intro">{siteConfig.resident.introduction}</p>
+        <p class="resident-profile__status">
+          <span aria-hidden="true"></span>{siteConfig.resident.status}
+        </p>
+
+        <div class="resident-links" aria-label="个人链接">
+          {
+            siteConfig.links.map((link, index) => (
+              <a class:list={{ "resident-link--primary": index === 1 }} href={link.href} target="_blank" rel="noreferrer">
+                <span>{link.label}</span>
+                <PixelIcon name="arrow" size={22} />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="posts-window" id="posts" aria-labelledby="posts-title">
+    <header class="posts-window__header">
+      <h2 id="posts-title"><PixelIcon name="lantern" size={32} />最近文章</h2>
+      <span>{posts.length.toString().padStart(2, "0")} 篇</span>
+    </header>
+    <p class="posts-window__description">小屋里的新纸条，按发布日期排列。</p>
+
+    {
+      posts.length > 0 ? (
+        <ol class="post-list">
+          {posts.map((post) => (
+            <li>
+              <a href={`${base}/posts/${post.id}/`}>
+                <PixelIcon name="newspaper" size={52} />
+                <div class="post-list__copy">
+                  <h3>{post.data.title}</h3>
+                  <p>{post.data.description}</p>
+                </div>
+                <time datetime={post.data.publishedAt.toISOString()}>
+                  {post.data.publishedAt.toLocaleDateString("zh-CN", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                  })}
+                </time>
+                <PixelIcon name="arrow" size={20} />
+              </a>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <div class="empty-state">
+          <p>桌上还没有新纸条。</p>
+          <p>在 src/content/posts/ 新建 Markdown 文件后，文章会出现在这里。</p>
+        </div>
+      )
+    }
+  </section>
+
+  <div class="ground-edge" aria-hidden="true"><span></span><span></span><span></span></div>
+</BaseLayout>
