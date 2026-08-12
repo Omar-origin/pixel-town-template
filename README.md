@@ -67,6 +67,8 @@ pnpm build
 
 分支规则、PR 要求和负责人边界见 [CONTRIBUTING.md](./CONTRIBUTING.md)。
 
+教程发布前，由未参与实现的成员按照[建站指南从零演练记录](./docs/guide-rehearsal.md)完成网页路线和 GitHub Desktop + VS Code 路线，并记录耗时、错误与复验结论。
+
 ## 当前阶段
 
 这是模板基座：已经具备集中配置、Markdown 内容、像素风响应式首页、文章详情、检查、测试和 Pages 部署流程。后续页面和教程继续按独立功能分支提交。
