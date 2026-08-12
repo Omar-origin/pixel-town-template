@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 
 import { getGitHubPagesDeployment } from "../src/config/deployment";
 import { siteConfig } from "../src/config/site";
@@ -21,6 +22,32 @@ describe("siteConfig", () => {
       const url = new URL(link.href);
       expect(url.protocol).toBe("https:");
     }
+  });
+
+  it("keeps the beginner guide visible in the primary navigation", () => {
+    expect(siteConfig.navigation).toContainEqual({
+      label: "建站指南",
+      href: "/guide/",
+    });
+
+    for (const item of siteConfig.navigation) {
+      expect(item.href.startsWith("/")).toBe(true);
+    }
+  });
+
+  it("uses HTTPS for every external URL in the guide", () => {
+    const source = readFileSync(
+      new URL("../src/pages/guide.astro", import.meta.url),
+      "utf8",
+    );
+    const urls = Array.from(
+      source.matchAll(/"(https:\/\/[^\"]+)"/g),
+      ([, url]) => url,
+    );
+
+    expect(urls.length).toBeGreaterThanOrEqual(4);
+    expect(urls.every((url) => new URL(url).protocol === "https:")).toBe(true);
+    expect(source).not.toMatch(/C:\\Users\\|AppData\\|xwechat_files/);
   });
 });
 

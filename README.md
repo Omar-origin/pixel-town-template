@@ -28,6 +28,8 @@ pnpm dev
 - `src/config/site.ts`：姓名、简介、地块、状态、链接和导航；
 - `src/content/posts/`：Markdown 文章。
 
+启动网站后，导航中的 **建站指南** 会打开 `/guide/`。指南提供“只用 GitHub 网页”和“GitHub Desktop + VS Code”两条路线，从创建个人仓库一直说明到 Pages 上线与安全检查。
+
 ## 第一次套用模板
 
 不需要理解 Astro 组件，也不需要修改页面布局。按下面顺序替换即可：
@@ -58,6 +60,8 @@ pnpm build
 4. 仓库名不是 `<用户名>.github.io` 时，构建会自动使用仓库名作为 `base` 路径。
 
 如果绑定自定义域名，在仓库 Actions 变量中设置 `SITE_URL`，例如 `https://example.com`。
+
+> GitHub Pages 网站会公开在互联网上。不要把 Token、密码、Cookie、私钥、`.env` 或私人资料写入配置、文章或 Git 历史。
 
 ## 分支与协作
 
