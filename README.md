@@ -15,7 +15,7 @@
 
 ## 本地启动
 
-需要 Node.js `22.12.0` 或更高版本。
+需要 Node.js 22 LTS（`22.12.0` 或更高的 22.x 版本）。运行 `node --version` 时应以 `v22.` 开头；不要直接使用 Node 25 或更高版本，因为它们不再默认附带 Corepack。
 
 ```bash
 corepack enable
@@ -23,7 +23,7 @@ pnpm install
 pnpm dev
 ```
 
-浏览器打开终端显示的本地地址。首次修改从以下两个位置开始：
+`pnpm dev` 会持续占用当前终端。浏览器打开终端显示的本地地址；需要执行检查时，另开一个终端，或按 `Ctrl+C` 停止预览后再继续。首次修改从以下两个位置开始：
 
 - `src/config/site.ts`：姓名、简介、地块、状态、链接和导航；
 - `src/content/posts/`：Markdown 文章。

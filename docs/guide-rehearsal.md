@@ -19,14 +19,24 @@
 - [ ] 示例链接均替换为允许公开的 HTTPS 地址。
 - [ ] 不在聊天或截图中展示验证码、授权页面、个人邮箱或其他账号信息。
 
+合并前演练使用临时公开模板：<https://github.com/therfen412/pixel-town-template-rehearsal>。它只用于验证当前 PR head；PR 合并后还要从正式模板完成一次最小冒烟验证。
+
+## 视觉基线
+
+- [桌面端指南](./screenshots/guide-1440x900-viewport.png)
+- [手机端指南](./screenshots/guide-390x844-viewport.png)
+- [手机菜单与键盘焦点](./screenshots/guide-mobile-menu-open.png)
+
 ## 路线 A：只用 GitHub 网页
 
-1. 从官方仓库选择 **Use this template → Create a new repository**。
-2. 确认新仓库包含 `src`、`public`、`package.json` 和 `.github`。
-3. 在网页修改 `src/config/site.ts` 中的居民资料、地块信息和链接。
-4. 修改 `src/content/posts/hello-town.md`，提交到演练仓库的 `main`。
-5. 在 **Settings → Pages** 将 Source 设置为 **GitHub Actions**。
-6. 等待部署完成，并检查首页、文章和“建站指南”链接。
+1. 从临时公开模板选择 **Use this template → Create a new repository**。
+2. 使用 GitHub Free 时将演练仓库设为 **Public**；只有支持私有 Pages 的付费套餐才能选择 Private。
+3. 确认新仓库包含 `src`、`public`、`package.json` 和 `.github`。
+4. 立即在 **Settings → Pages** 将 Source 设置为 **GitHub Actions**。
+5. 如果首次部署已经失败，打开 **Actions → Deploy to GitHub Pages → Run workflow** 手动重新运行。
+6. 在网页修改 `src/config/site.ts` 中的居民资料、地块信息和链接。
+7. 修改 `src/content/posts/hello-town.md`；再使用 **Add file → Create new file** 新建一篇 Markdown 文章。
+8. 提交到演练仓库的 `main`，等待 Check 与 Deploy 都成功，并检查首页、文章和“建站指南”链接。
 
 结果：
 
@@ -42,7 +52,7 @@
 
 1. 使用 GitHub Desktop 克隆上一步创建的演练仓库。
 2. 创建 `site/rehearsal-update` 分支，并用 VS Code 打开仓库。
-3. 在终端依次运行：
+3. 在终端先运行 `node --version`，确认使用 Node 22 LTS且版本以 `v22.` 开头，再依次运行：
 
    ```bash
    corepack enable
@@ -50,9 +60,11 @@
    pnpm dev
    ```
 
+   `pnpm dev` 会持续占用当前终端。保持它运行，并在 VS Code 中另开一个终端；也可以在完成预览后按 `Ctrl+C` 再继续。
+
 4. 修改居民介绍，并复制示例 Markdown 新增一篇文章。
 5. 在浏览器检查首页、文章页、手机菜单和站内链接。
-6. 运行：
+6. 在第二个终端运行（或先按 `Ctrl+C` 停止预览）：
 
    ```bash
    pnpm check
@@ -84,6 +96,8 @@
 - [ ] 执行人确认可以仅凭指南再次完成
 
 最终结论：通过 / 需要修订后复验
+
+PR #8 演练评论链接：待填写
 
 执行人备注：待填写
 

@@ -4,6 +4,13 @@ import { readFileSync } from "node:fs";
 import { getGitHubPagesDeployment } from "../src/config/deployment";
 import { siteConfig } from "../src/config/site";
 
+function extractExternalUrls(source: string) {
+  return Array.from(
+    source.matchAll(/["']([a-z][a-z0-9+.-]*:\/\/[^"']+)["']/gi),
+    ([, url]) => url,
+  );
+}
+
 describe("siteConfig", () => {
   it("provides the resident identity required by the homepage", () => {
     expect(siteConfig.resident.name.trim()).not.toBe("");
@@ -40,14 +47,20 @@ describe("siteConfig", () => {
       new URL("../src/pages/guide.astro", import.meta.url),
       "utf8",
     );
-    const urls = Array.from(
-      source.matchAll(/"(https:\/\/[^\"]+)"/g),
-      ([, url]) => url,
-    );
+    const urls = extractExternalUrls(source);
 
     expect(urls.length).toBeGreaterThanOrEqual(4);
-    expect(urls.every((url) => new URL(url).protocol === "https:")).toBe(true);
+    for (const url of urls) {
+      expect(new URL(url).protocol).toBe("https:");
+    }
     expect(source).not.toMatch(/C:\\Users\\|AppData\\|xwechat_files/);
+  });
+
+  it("detects insecure external URLs before they enter the guide", () => {
+    const urls = extractExternalUrls('const unsafe = "http://example.com";');
+
+    expect(urls).toEqual(["http://example.com"]);
+    expect(urls.every((url) => new URL(url).protocol === "https:")).toBe(false);
   });
 });
 
