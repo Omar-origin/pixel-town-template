@@ -67,7 +67,7 @@ pnpm build
 
 分支规则、PR 要求和负责人边界见 [CONTRIBUTING.md](./CONTRIBUTING.md)。
 
-教程发布前，由未参与实现的成员按照[建站指南从零演练记录](./docs/guide-rehearsal.md)完成网页路线和 GitHub Desktop + VS Code 路线，并记录耗时、错误与复验结论。
+教程发布前，先按照[建站指南技术预演与最终确认](./docs/guide-rehearsal.md)完成网页路线和 GitHub Desktop + VS Code 路线的自动技术预演，再由未参与实现的人完成最终理解确认。自动检查不能冒充真人体验。
 
 ## 当前阶段
 
