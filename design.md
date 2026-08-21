@@ -57,6 +57,9 @@ competes with the action colour.
 
 - The homepage may use the plot card and low-contrast CSS townscape.
 - Article pages use typography and rules only; no decorative skyline behind prose.
+- The beginner guide uses the Long Document family with semantic pixel diagrams,
+  ordered steps and one containment layer. Diagrams explain relationships without
+  imitating browser, phone or editor chrome.
 - No page may add gradients, rounded pills, glass effects or generic feature-card grids.
 
 ## Exports

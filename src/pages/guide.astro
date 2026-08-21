@@ -1,0 +1,752 @@
+---
+import GuidePixelDiagram from "@/components/GuidePixelDiagram.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const templateRepository = "https://github.com/Omar-origin/pixel-town-template";
+const officialGuides = {
+  template:
+    "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template",
+  desktop:
+    "https://docs.github.com/en/desktop/adding-and-cloning-repositories/cloning-a-repository-from-github-to-github-desktop",
+  pages:
+    "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site",
+};
+---
+
+<BaseLayout
+  title="建站指南"
+  description="从创建仓库到 GitHub Pages 上线，按步骤完成你的像素小镇个人网站。"
+>
+  <article class="guide-shell">
+    <header class="guide-hero">
+      <p class="guide-hero__label">居民建站指南</p>
+      <h1>把模板变成你的小屋</h1>
+      <p>
+        你不需要先学会 Astro。选一条路线，修改居民资料和 Markdown 文章，然后让 GitHub 自动发布网站。
+      </p>
+      <nav class="guide-route-choice" aria-label="选择建站路线">
+        <a href="#web-route">只用网页</a>
+        <a href="#desktop-route">用 VS Code</a>
+      </nav>
+    </header>
+
+    <section class="guide-section" id="start">
+      <div class="guide-section__heading">
+        <span>共同起点</span>
+        <h2>先创建自己的仓库</h2>
+      </div>
+      <GuidePixelDiagram
+        kind="template"
+        title="复制模板，不是在原仓库里改"
+        description="模板负责提供结构；你的仓库保存个人资料、文章和之后的每次修改。"
+      />
+      <ol class="guide-steps">
+        <li>
+          <div>
+            <h3>打开官方模板</h3>
+            <p>
+              访问 <a href={templateRepository} target="_blank" rel="noreferrer">Pixel Town Resident Template</a>，确认页面顶部显示
+              <strong>Use this template</strong>。
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>创建新仓库</h3>
+            <p>
+              选择 <strong>Create a new repository</strong>，填写仓库名称。GitHub Free 用户请选择
+              <strong>Public</strong> 才能使用 Pages；只有支持私有 Pages 的付费套餐才能选择 Private。不要勾选 Include all branches。
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>确认复制完成</h3>
+            <p>新仓库应包含 <code>src</code>、<code>public</code>、<code>package.json</code> 和 <code>.github</code>。</p>
+          </div>
+        </li>
+      </ol>
+      <aside class="guide-note guide-note--warning">
+        <strong>看不到 “Use this template”？</strong>
+        <p>先确认自己已经登录并拥有模板读取权限；如果按钮仍不存在，请联系模板管理员启用 Template repository。</p>
+      </aside>
+      <p class="guide-source-link">
+        <a href={officialGuides.template} target="_blank" rel="noreferrer">GitHub 模板官方说明 →</a>
+      </p>
+    </section>
+
+    <section class="guide-section" id="web-route">
+      <div class="guide-section__heading">
+        <h2>路线 A：只用 GitHub 网页修改</h2>
+      </div>
+      <p class="guide-section__lede">适合第一次建站，或者只想改资料和写文章的人。每次保存后，GitHub 会记录一条提交。</p>
+      <GuidePixelDiagram
+        kind="edit"
+        title="只改两个地方"
+        description="集中配置决定居民资料，Markdown 文件决定文章内容。页面布局不用动。"
+      />
+      <ol class="guide-steps">
+        <li>
+          <div>
+            <h3>修改居民资料</h3>
+            <p>打开 <code>src/config/site.ts</code>，点击铅笔按钮，替换姓名、身份、地块、介绍、状态和个人链接。</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>修改第一篇文章</h3>
+            <p>打开 <code>src/content/posts/hello-town.md</code>。保留顶部字段结构，修改标题、简介、日期和正文。</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>保存到自己的 main</h3>
+            <p>点击 <strong>Commit changes</strong>，写清楚这次改了什么。个人仓库的网页快速路线可以直接提交到 <code>main</code>。</p>
+          </div>
+        </li>
+      </ol>
+      <aside class="guide-note">
+        <strong>新增文章</strong>
+        <p>
+          在 <code>src/content/posts</code> 页面选择 <strong>Add file → Create new file</strong>，输入英文文件名（例如
+          <code>my-first-project.md</code>），再把 <code>hello-town.md</code> 的内容复制到编辑器并修改。文件名会成为文章网址的一部分。
+        </p>
+      </aside>
+    </section>
+
+    <section class="guide-section" id="desktop-route">
+      <div class="guide-section__heading">
+        <h2>路线 B：用 GitHub Desktop 和 VS Code</h2>
+      </div>
+      <p class="guide-section__lede">适合需要本地预览、一次修改多个文件，或者准备继续学习前端开发的人。</p>
+      <GuidePixelDiagram
+        kind="desktop"
+        title="先克隆，再在本地编辑"
+        description="GitHub Desktop 管理版本，VS Code 编辑内容，终端负责预览和检查。"
+      />
+      <ol class="guide-steps">
+        <li>
+          <div>
+            <h3>克隆自己的仓库</h3>
+            <p>在仓库页面点击 <strong>Code → Open with GitHub Desktop</strong>，选择本地目录后点击 <strong>Clone</strong>。</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>创建修改分支</h3>
+            <p>在 GitHub Desktop 选择 <strong>Current branch → New branch</strong>，分支名可使用 <code>site/update-profile</code>。</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>使用 Node 22 LTS 启动预览</h3>
+            <p>
+              选择 <strong>Repository → Open in Visual Studio Code</strong>。先运行 <code>node --version</code>，确认版本以
+              <code>v22.</code> 开头，再打开终端运行：
+            </p>
+            <pre class="guide-code"><code>corepack enable
+pnpm install
+pnpm dev</code></pre>
+            <p><code>pnpm dev</code> 会持续占用当前终端。保持它运行，并在 VS Code 中另开一个终端执行后续检查。</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>修改并预览</h3>
+            <p>编辑 <code>src/config/site.ts</code> 和 <code>src/content/posts/</code>，浏览器会自动刷新。</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>检查后提交</h3>
+            <pre class="guide-code"><code>pnpm check
+pnpm test
+pnpm build</code></pre>
+            <p>
+              在第二个终端运行这些命令；如果不想另开终端，先回到预览终端按 <code>Ctrl+C</code>。全部通过后，在 GitHub Desktop
+              提交并推送分支，再创建 Pull Request 合并到 <code>main</code>。
+            </p>
+          </div>
+        </li>
+      </ol>
+      <p class="guide-source-link">
+        <a href={officialGuides.desktop} target="_blank" rel="noreferrer">Desktop 克隆说明 →</a>
+      </p>
+    </section>
+
+    <section class="guide-section" id="publish">
+      <div class="guide-section__heading">
+        <h2>让 GitHub Pages 发布网站</h2>
+      </div>
+      <GuidePixelDiagram
+        kind="deploy"
+        title="main 更新后自动发布"
+        description="仓库已经带有构建工作流；你只需要启用 Pages 并观察 Actions 结果。"
+      />
+      <ol class="guide-steps">
+        <li>
+          <div>
+            <h3>启用 GitHub Actions</h3>
+            <p>
+              创建仓库后先打开 <strong>Settings → Pages</strong>，在 <strong>Build and deployment</strong> 中把 Source 设为
+              <strong>GitHub Actions</strong>。
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>查看部署结果</h3>
+            <p>
+              打开 <strong>Actions → Deploy to GitHub Pages</strong>。如果创建仓库时的首次运行在启用 Pages 前失败，选择
+              <strong>Run workflow</strong> 手动重新运行。等待 Check 与 Deploy 都变成绿色。
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>打开公开网址</h3>
+            <p>返回 Pages 设置，点击显示的网站地址。项目仓库的网址通常包含仓库名称这一段路径。</p>
+          </div>
+        </li>
+      </ol>
+      <aside class="guide-note guide-note--warning">
+        <strong>网站内容会公开</strong>
+        <p>GitHub Pages 网站可被互联网访问。即使仓库是私有的，也不要把密码、Token、证件、家庭住址或未公开资料写进网页。</p>
+      </aside>
+      <p class="guide-source-link">
+        <a href={officialGuides.pages} target="_blank" rel="noreferrer">Pages 发布说明 →</a>
+      </p>
+    </section>
+
+    <section class="guide-section" id="troubleshooting">
+      <div class="guide-section__heading">
+        <h2>遇到问题时，从这里检查</h2>
+      </div>
+      <dl class="guide-troubleshooting">
+        <div>
+          <dt>Pages 显示 404</dt>
+          <dd>确认 Source 是 GitHub Actions，并检查最新部署是否成功。项目站点网址必须包含仓库名。</dd>
+        </div>
+        <div>
+          <dt>文章没有出现</dt>
+          <dd>确认文件在 <code>src/content/posts/</code>，顶部字段完整，且 <code>draft</code> 不是 <code>true</code>。</dd>
+        </div>
+        <div>
+          <dt>配置修改后构建失败</dt>
+          <dd>检查引号、逗号和大括号是否成对。不要删除 <code>resident</code>、<code>plot</code> 或 <code>seo</code> 的结构。</dd>
+        </div>
+        <div>
+          <dt>终端找不到 node 或 pnpm</dt>
+          <dd>安装 Node.js 22 LTS，确认 <code>node --version</code> 以 <code>v22.</code> 开头，重新打开 VS Code，再运行 <code>corepack enable</code>。</dd>
+        </div>
+        <div>
+          <dt>站内链接跳错位置</dt>
+          <dd>不要把自己的仓库名称硬编码进链接；模板会自动处理 GitHub Pages 的子路径。</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="guide-section" id="security">
+      <div class="guide-section__heading">
+        <h2>公开之前，先删掉不该公开的东西</h2>
+      </div>
+      <ul class="guide-safety-list">
+        <li><strong>不提交秘密：</strong>Token、密码、Cookie、私钥和 <code>.env</code> 文件不能进入 Git。</li>
+        <li><strong>不公开隐私：</strong>删除家庭住址、私人手机号、证件号码和带定位信息的内容。</li>
+        <li><strong>只用可信链接：</strong>个人链接使用完整的 <code>https://</code> 地址，发布前逐个打开确认。</li>
+        <li><strong>先预览再发布：</strong>检查手机和电脑布局，确认文章、图片和外部链接都是准备公开的版本。</li>
+        <li><strong>发现泄漏立即处理：</strong>先撤销或轮换泄漏的凭据，再清理 Git 历史；仅删除网页文字并不能让旧秘密失效。</li>
+      </ul>
+    </section>
+
+    <section class="guide-section guide-section--finish" id="launch-checklist">
+      <div class="guide-section__heading">
+        <h2>上线前最后检查</h2>
+      </div>
+      <ul class="guide-checklist">
+        <li>居民姓名、身份、地块和介绍已替换</li>
+        <li>示例 GitHub 和小镇链接已替换</li>
+        <li>至少一篇文章能打开</li>
+        <li>电脑和手机没有横向滚动</li>
+        <li>Actions 检查与 Pages 部署均为绿色</li>
+        <li>页面不包含秘密或私人资料</li>
+      </ul>
+      <p class="guide-finish-line">全部完成后，你的像素小屋就已经可以邀请邻居来访。</p>
+      <a class="guide-back-home" href={`${import.meta.env.BASE_URL}`}>返回首页 →</a>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 */
+/* Hallmark · genre: playful · macrostructure: Long Document · design-system: design.md
+ * audience: first-time personal-site builders · use: publish a resident site · tone: friendly-exact
+ * enrichment: semantic pixel diagrams · nav: N7 preserved · footer: Ft5 preserved
+ * contrast: pass (40–41) · slop: pass (42–45) · honest: pass (46) · chrome: pass (47)
+ * tokens: pass (48) · responsive: pass (49) · icons: pass (30) · mobile: pass (34, 49, 50–57)
+ */
+.guide-shell {
+  width: min(64rem, calc(100% - 2rem));
+  margin-inline: auto;
+  padding-block: var(--space-2xl) var(--space-3xl);
+}
+
+.guide-hero {
+  display: grid;
+  max-width: 52rem;
+  gap: var(--space-md);
+  padding: var(--space-xl) var(--space-xl) var(--space-2xl);
+  border: var(--rule-heavy) solid var(--color-ink);
+  background: var(--color-paper-raised);
+  box-shadow: var(--pixel-unit) var(--pixel-unit) 0 var(--color-ink-soft);
+}
+
+.guide-hero__label,
+.guide-section__heading > span {
+  margin: 0;
+  color: var(--color-accent);
+  font-family: var(--font-utility);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.guide-hero h1 {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: clamp(var(--text-2xl), 7vw, 4.75rem);
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  line-height: 1.05;
+  text-shadow: var(--pixel-unit) var(--pixel-unit) 0 var(--color-sky-line);
+}
+
+.guide-hero > p:not(.guide-hero__label) {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--color-muted);
+  font-size: var(--text-md);
+}
+
+.guide-route-choice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  padding-block-start: var(--space-sm);
+}
+
+.guide-route-choice a,
+.guide-back-home {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  padding: var(--space-xs) var(--space-lg);
+  border: var(--rule-heavy) solid var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-paper-raised);
+  box-shadow: var(--pixel-unit) var(--pixel-unit) 0 var(--color-ink-soft);
+  font-family: var(--font-utility);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+}
+
+.guide-route-choice a + a {
+  background: var(--color-paper-raised);
+  color: var(--color-ink);
+}
+
+.guide-route-choice a:hover,
+.guide-back-home:hover {
+  color: var(--color-accent);
+  transform: translateY(calc(var(--pixel-unit) * -1));
+}
+
+.guide-route-choice a:active,
+.guide-back-home:active {
+  transform: translate(var(--pixel-unit), var(--pixel-unit));
+}
+
+.guide-section {
+  display: grid;
+  max-width: 58rem;
+  gap: var(--space-lg);
+  padding-block: var(--space-3xl) 0;
+}
+
+.guide-section:nth-of-type(even) {
+  margin-inline-start: auto;
+}
+
+.guide-section__heading {
+  display: grid;
+  max-width: 46rem;
+  gap: var(--space-xs);
+}
+
+.guide-section__heading h2 {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: clamp(var(--text-xl), 4vw, var(--text-2xl));
+  font-weight: 900;
+  letter-spacing: 0.01em;
+}
+
+.guide-section__lede {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--color-muted);
+  font-size: var(--text-md);
+}
+
+.guide-diagram {
+  display: grid;
+  margin: var(--space-sm) 0;
+  border: var(--rule-strong) solid var(--color-rule-strong);
+  background: var(--color-paper-warm);
+  box-shadow: var(--pixel-unit) var(--pixel-unit) 0 var(--color-rule);
+}
+
+.guide-diagram__canvas {
+  display: grid;
+  min-height: 10rem;
+  place-items: center;
+  padding: var(--space-xl);
+}
+
+.guide-diagram__flow {
+  display: grid;
+  grid-template-columns: minmax(8rem, auto) auto minmax(8rem, auto);
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.guide-diagram__flow--wide {
+  grid-template-columns: minmax(7rem, auto) auto minmax(7rem, auto) auto minmax(7rem, auto);
+}
+
+.guide-diagram__node {
+  display: grid;
+  min-height: 4rem;
+  place-items: center;
+  padding: var(--space-sm) var(--space-lg);
+  border: var(--rule-heavy) solid var(--color-ink);
+  background: var(--color-paper-raised);
+  box-shadow: var(--pixel-unit) var(--pixel-unit) 0 var(--color-ink-soft);
+  font-family: var(--font-utility);
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.guide-diagram__node--accent {
+  background: var(--color-accent-quiet);
+  color: var(--color-accent-dark);
+}
+
+.guide-diagram__arrow,
+.guide-diagram__plus {
+  color: var(--color-accent);
+  font-family: var(--font-utility);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  text-align: center;
+}
+
+.guide-diagram figcaption {
+  display: grid;
+  gap: var(--space-2xs);
+  padding: var(--space-md) var(--space-lg);
+  border-block-start: var(--rule-strong) solid var(--color-rule-strong);
+  background: var(--color-paper-raised);
+}
+
+.guide-diagram figcaption strong {
+  font-size: var(--text-md);
+}
+
+.guide-diagram figcaption span {
+  color: var(--color-muted);
+}
+
+.guide-steps {
+  margin: 0;
+  padding: 0;
+  counter-reset: guide-step;
+  list-style: none;
+}
+
+.guide-steps li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  gap: var(--space-lg);
+  counter-increment: guide-step;
+  padding-block: var(--space-lg);
+  border-block-start: var(--rule-strong) solid var(--color-rule);
+}
+
+.guide-steps li::before {
+  content: counter(guide-step, decimal-leading-zero);
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  place-items: center;
+  border: var(--rule-heavy) solid var(--color-ink);
+  background: var(--color-paper-raised);
+  box-shadow: var(--pixel-unit) var(--pixel-unit) 0 var(--color-ink-soft);
+  color: var(--color-accent);
+  font-family: var(--font-utility);
+  font-size: var(--text-md);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.guide-steps li > div {
+  min-width: 0;
+}
+
+.guide-steps h3 {
+  margin-block-end: var(--space-xs);
+  font-size: var(--text-lg);
+  font-weight: 900;
+}
+
+.guide-steps p,
+.guide-note p,
+.guide-safety-list li,
+.guide-checklist li,
+.guide-troubleshooting dd {
+  max-width: 65ch;
+}
+
+.guide-steps p,
+.guide-note p {
+  margin: 0;
+}
+
+.guide-shell code {
+  padding-inline: var(--space-2xs);
+  background: var(--color-paper-deep);
+  font-family: var(--font-utility);
+  overflow-wrap: anywhere;
+}
+
+.guide-code {
+  max-width: 42rem;
+  margin: var(--space-md) 0;
+  overflow-x: auto;
+  padding: var(--space-lg);
+  border-block: var(--rule-strong) solid var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-paper-raised);
+  font-family: var(--font-utility);
+  line-height: 1.8;
+  tab-size: 2;
+}
+
+.guide-code code {
+  padding: 0;
+  background: var(--color-transparent);
+  color: inherit;
+  white-space: pre;
+}
+
+.guide-note {
+  max-width: 48rem;
+  padding: var(--space-lg);
+  border: var(--rule-strong) solid var(--color-ink);
+  background: var(--color-paper-raised);
+}
+
+.guide-note strong {
+  display: block;
+  margin-block-end: var(--space-xs);
+  color: var(--color-accent-dark);
+  font-size: var(--text-md);
+}
+
+.guide-note--warning {
+  background: var(--color-accent-quiet);
+}
+
+.guide-source-link {
+  margin: 0;
+}
+
+.guide-source-link a {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  color: var(--color-accent-dark);
+  font-weight: 700;
+  text-underline-offset: var(--space-2xs);
+  white-space: nowrap;
+}
+
+.guide-source-link a:hover {
+  color: var(--color-accent);
+}
+
+.guide-troubleshooting {
+  margin: 0;
+  border-block-start: var(--rule-heavy) solid var(--color-ink);
+}
+
+.guide-troubleshooting div {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) minmax(0, 2fr);
+  gap: var(--space-lg);
+  padding-block: var(--space-lg);
+  border-block-end: var(--rule-strong) solid var(--color-rule);
+}
+
+.guide-troubleshooting dt {
+  font-weight: 900;
+}
+
+.guide-troubleshooting dd {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.guide-safety-list,
+.guide-checklist {
+  display: grid;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide-safety-list li,
+.guide-checklist li {
+  position: relative;
+  padding: var(--space-md) var(--space-lg) var(--space-md) var(--space-xl);
+  border-block-end: var(--rule-strong) solid var(--color-rule);
+}
+
+.guide-safety-list li::before,
+.guide-checklist li::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 1.45rem;
+  inset-inline-start: var(--space-sm);
+  width: var(--space-sm);
+  height: var(--space-sm);
+  border: var(--rule-strong) solid var(--color-ink);
+  background: var(--color-accent);
+}
+
+.guide-checklist {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.guide-section--finish {
+  margin-block-end: var(--space-xl);
+  padding: var(--space-xl);
+  border: var(--rule-heavy) solid var(--color-ink);
+  background: var(--color-paper-raised);
+  box-shadow: var(--pixel-unit) var(--pixel-unit) 0 var(--color-ink-soft);
+}
+
+.guide-finish-line {
+  max-width: 55ch;
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: 700;
+}
+
+.guide-back-home {
+  justify-self: start;
+}
+
+@media (max-width: 44.99rem) {
+  .guide-shell {
+    width: calc(100% - 1.5rem);
+    padding-block: var(--space-lg) var(--space-2xl);
+  }
+
+  .guide-hero {
+    padding: var(--space-lg) var(--space-md) var(--space-xl);
+  }
+
+  .guide-hero > p:not(.guide-hero__label),
+  .guide-section__lede {
+    font-size: var(--text-base);
+  }
+
+  .guide-section {
+    padding-block-start: var(--space-2xl);
+  }
+
+  .guide-diagram__canvas {
+    padding: var(--space-lg) var(--space-sm);
+  }
+
+  .guide-diagram__flow,
+  .guide-diagram__flow--wide {
+    grid-template-columns: minmax(0, 1fr);
+    width: min(18rem, 100%);
+  }
+
+  .guide-diagram__arrow {
+    transform: rotate(90deg);
+  }
+
+  .guide-diagram__node {
+    width: 100%;
+  }
+
+  .guide-steps li {
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    gap: var(--space-sm);
+  }
+
+  .guide-steps li::before {
+    width: 3rem;
+    height: 3rem;
+    font-size: var(--text-base);
+  }
+
+  .guide-steps h3 {
+    font-size: var(--text-md);
+  }
+
+  .guide-troubleshooting div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xs);
+  }
+
+  .guide-checklist {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .guide-section--finish {
+    padding: var(--space-lg) var(--space-md);
+  }
+}
+
+@media (max-width: 22rem) {
+  .guide-route-choice {
+    display: grid;
+  }
+
+  .guide-route-choice a {
+    justify-content: center;
+  }
+
+  .guide-steps li {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .guide-steps li::before {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+}
+</style>

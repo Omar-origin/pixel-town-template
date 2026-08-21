@@ -1,0 +1,60 @@
+---
+interface Props {
+  kind: "template" | "edit" | "desktop" | "deploy";
+  title: string;
+  description: string;
+}
+
+const { kind, title, description } = Astro.props;
+---
+
+<figure class:list={["guide-diagram", `guide-diagram--${kind}`]}>
+  <div class="guide-diagram__canvas" aria-hidden="true">
+    {
+      kind === "template" && (
+        <div class="guide-diagram__flow">
+          <span class="guide-diagram__node">官方模板</span>
+          <span class="guide-diagram__arrow">→</span>
+          <span class="guide-diagram__node guide-diagram__node--accent">你的仓库</span>
+        </div>
+      )
+    }
+    {
+      kind === "edit" && (
+        <div class="guide-diagram__flow guide-diagram__flow--wide">
+          <span class="guide-diagram__node">site.ts</span>
+          <span class="guide-diagram__plus">+</span>
+          <span class="guide-diagram__node">posts/*.md</span>
+          <span class="guide-diagram__arrow">→</span>
+          <span class="guide-diagram__node guide-diagram__node--accent">个人网站</span>
+        </div>
+      )
+    }
+    {
+      kind === "desktop" && (
+        <div class="guide-diagram__flow guide-diagram__flow--wide">
+          <span class="guide-diagram__node">GitHub</span>
+          <span class="guide-diagram__arrow">→</span>
+          <span class="guide-diagram__node">Desktop</span>
+          <span class="guide-diagram__arrow">→</span>
+          <span class="guide-diagram__node guide-diagram__node--accent">VS Code</span>
+        </div>
+      )
+    }
+    {
+      kind === "deploy" && (
+        <div class="guide-diagram__flow guide-diagram__flow--wide">
+          <span class="guide-diagram__node">main</span>
+          <span class="guide-diagram__arrow">→</span>
+          <span class="guide-diagram__node">Actions</span>
+          <span class="guide-diagram__arrow">→</span>
+          <span class="guide-diagram__node guide-diagram__node--accent">Pages</span>
+        </div>
+      )
+    }
+  </div>
+  <figcaption>
+    <strong>{title}</strong>
+    <span>{description}</span>
+  </figcaption>
+</figure>

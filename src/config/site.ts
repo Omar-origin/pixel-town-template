@@ -16,6 +16,7 @@ export const siteConfig = {
   navigation: [
     { label: "首页", href: "/" },
     { label: "文章", href: "/#posts" },
+    { label: "建站指南", href: "/guide/" },
   ],
   links: [
     { label: "GitHub", href: "https://github.com/" },

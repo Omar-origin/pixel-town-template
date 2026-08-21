@@ -15,7 +15,7 @@
 
 ## 本地启动
 
-需要 Node.js `22.12.0` 或更高版本。
+需要 Node.js 22 LTS（`22.12.0` 或更高的 22.x 版本）。运行 `node --version` 时应以 `v22.` 开头；不要直接使用 Node 25 或更高版本，因为它们不再默认附带 Corepack。
 
 ```bash
 corepack enable
@@ -23,10 +23,12 @@ pnpm install
 pnpm dev
 ```
 
-浏览器打开终端显示的本地地址。首次修改从以下两个位置开始：
+`pnpm dev` 会持续占用当前终端。浏览器打开终端显示的本地地址；需要执行检查时，另开一个终端，或按 `Ctrl+C` 停止预览后再继续。首次修改从以下两个位置开始：
 
 - `src/config/site.ts`：姓名、简介、地块、状态、链接和导航；
 - `src/content/posts/`：Markdown 文章。
+
+启动网站后，导航中的 **建站指南** 会打开 `/guide/`。指南提供“只用 GitHub 网页”和“GitHub Desktop + VS Code”两条路线，从创建个人仓库一直说明到 Pages 上线与安全检查。
 
 ## 第一次套用模板
 
@@ -59,9 +61,13 @@ pnpm build
 
 如果绑定自定义域名，在仓库 Actions 变量中设置 `SITE_URL`，例如 `https://example.com`。
 
+> GitHub Pages 网站会公开在互联网上。不要把 Token、密码、Cookie、私钥、`.env` 或私人资料写入配置、文章或 Git 历史。
+
 ## 分支与协作
 
 分支规则、PR 要求和负责人边界见 [CONTRIBUTING.md](./CONTRIBUTING.md)。
+
+教程发布前，先按照[建站指南技术预演与最终确认](./docs/guide-rehearsal.md)完成网页路线和 GitHub Desktop + VS Code 路线的自动技术预演，再由未参与实现的人完成最终理解确认。自动检查不能冒充真人体验。
 
 ## 当前阶段
 

@@ -1,7 +1,15 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 
 import { getGitHubPagesDeployment } from "../src/config/deployment";
 import { siteConfig } from "../src/config/site";
+
+function extractExternalUrls(source: string) {
+  return Array.from(
+    source.matchAll(/["']([a-z][a-z0-9+.-]*:\/\/[^"']+)["']/gi),
+    ([, url]) => url,
+  );
+}
 
 describe("siteConfig", () => {
   it("provides the resident identity required by the homepage", () => {
@@ -21,6 +29,38 @@ describe("siteConfig", () => {
       const url = new URL(link.href);
       expect(url.protocol).toBe("https:");
     }
+  });
+
+  it("keeps the beginner guide visible in the primary navigation", () => {
+    expect(siteConfig.navigation).toContainEqual({
+      label: "建站指南",
+      href: "/guide/",
+    });
+
+    for (const item of siteConfig.navigation) {
+      expect(item.href.startsWith("/")).toBe(true);
+    }
+  });
+
+  it("uses HTTPS for every external URL in the guide", () => {
+    const source = readFileSync(
+      new URL("../src/pages/guide.astro", import.meta.url),
+      "utf8",
+    );
+    const urls = extractExternalUrls(source);
+
+    expect(urls.length).toBeGreaterThanOrEqual(4);
+    for (const url of urls) {
+      expect(new URL(url).protocol).toBe("https:");
+    }
+    expect(source).not.toMatch(/C:\\Users\\|AppData\\|xwechat_files/);
+  });
+
+  it("detects insecure external URLs before they enter the guide", () => {
+    const urls = extractExternalUrls('const unsafe = "http://example.com";');
+
+    expect(urls).toEqual(["http://example.com"]);
+    expect(urls.every((url) => new URL(url).protocol === "https:")).toBe(false);
   });
 });
 
