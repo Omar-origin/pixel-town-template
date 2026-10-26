@@ -20,7 +20,7 @@
     "astro": "7.2.4"
   },
   "devDependencies": {
-    "@astrojs/check": "0.9.10",
+    "@astrojs/check": "0.9.12",
     "@types/node": "22.20.1",
     "typescript": "6.0.3",
     "vitest": "4.1.11"
